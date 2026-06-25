@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: auction-mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: offchain
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./offchain
+      dockerfile: Dockerfile
+    container_name: auction-api
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: ""
+      DB_NAME: offchain
+      RPC_URL: http://host.docker.internal:8545
+      CONTRACT_ADDRESS: 0x54B06642502fFd04cf8E2D92b036D50bd36bD78f
+      CHAIN_ID: 11155111
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
