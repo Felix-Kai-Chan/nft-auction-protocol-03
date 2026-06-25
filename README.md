@@ -63,38 +63,41 @@
 ---
 
 ## 📁 项目结构
+
+```
 nft-auction-protocol-03/
-├── onchain/ # 智能合约 (Foundry)
-│ ├── src/
-│ │ ├── Auction.sol # 主合约 (NFTAuctionMarketUUPS_V1)
-│ │ ├── interfaces/ # 接口定义
-│ │ └── mocks/ # Mock 合约 (MockUSDC, MockNFT)
-│ ├── script/
-│ │ └── Deploy.s.sol # 部署脚本
-│ ├── test/
-│ │ └── NFTAuctionMarketUUPS_V1.t.sol # 单元测试 (13 个)
-│ └── foundry.toml
+├── onchain/                              # 智能合约 (Foundry)
+│   ├── src/
+│   │   ├── Auction.sol                   # 主合约 (NFTAuctionMarketUUPS_V1)
+│   │   ├── interfaces/                   # 接口定义
+│   │   └── mocks/                        # Mock 合约 (MockUSDC, MockNFT)
+│   ├── script/
+│   │   └── Deploy.s.sol                  # 部署脚本
+│   ├── test/
+│   │   └── NFTAuctionMarketUUPS_V1.t.sol # 单元测试 (13 个)
+│   └── foundry.toml
 │
-├── offchain/ # Go 后端
-│ ├── cmd/
-│ │ ├── indexer/main.go # Indexer 入口
-│ │ └── api/main.go # API 入口
-│ ├── internal/
-│ │ ├── api/
-│ │ │ ├── handler/ # HTTP 处理层 (Gin)
-│ │ │ ├── service/ # 业务逻辑层
-│ │ │ └── middleware/ # 中间件 (Logger, CORS)
-│ │ ├── indexer/
-│ │ │ ├── listener.go # 事件监听
-│ │ │ └── repository/ # 数据访问层 (Auction, Bid, SyncCursor)
-│ │ ├── config/ # 配置管理
-│ │ └── contract/ # abigen 生成的合约绑定
-│ ├── Dockerfile # Docker 镜像构建
-│ └── go.mod
+├── offchain/                             # Go 后端
+│   ├── cmd/
+│   │   ├── indexer/main.go               # Indexer 入口
+│   │   └── api/main.go                   # API 入口
+│   ├── internal/
+│   │   ├── api/
+│   │   │   ├── handler/                  # HTTP 处理层 (Gin)
+│   │   │   ├── service/                  # 业务逻辑层
+│   │   │   └── middleware/               # 中间件 (Logger, CORS)
+│   │   ├── indexer/
+│   │   │   ├── listener.go               # 事件监听
+│   │   │   └── repository/               # 数据访问层 (Auction, Bid, SyncCursor)
+│   │   ├── config/                       # 配置管理
+│   │   └── contract/                     # abigen 生成的合约绑定
+│   ├── Dockerfile                        # Docker 镜像构建
+│   └── go.mod
 │
-├── docker-compose.yml # Docker Compose 编排
+├── docker-compose.yml                    # Docker Compose 编排
 ├── README.md
-└── screenshots/ # 项目截图
+└── screenshots/                          # 项目截图
+```
 
 text
 
