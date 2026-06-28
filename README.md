@@ -99,8 +99,6 @@ nft-auction-protocol-03/
 └── screenshots/                          # 项目截图
 ```
 
-text
-
 ---
 
 ## 🚀 快速开始
@@ -116,20 +114,32 @@ text
 ```bash
 cd onchain
 anvil
-2. 部署合约
-bash
+```
+
+### 2. 部署合约
+
+```bash
 forge script script/Deploy.s.sol:DeployAuction \
     --rpc-url http://localhost:8545 \
     --broadcast
-3. 启动 Indexer
-bash
+```
+
+### 3. 启动 Indexer
+
+```bash
 cd offchain
 go run cmd/indexer/main.go
-4. 启动 API
-bash
+```
+
+### 4. 启动 API
+
+```bash
 go run cmd/api/main.go
-5. 创建拍卖
-bash
+```
+
+### 5. 创建拍卖
+
+```bash
 curl -X POST http://localhost:8080/api/auctions \
   -H "Content-Type: application/json" \
   -d '{
@@ -139,61 +149,91 @@ curl -X POST http://localhost:8080/api/auctions \
     "min_bid_usd18": "100000000000000000000",
     "sender": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
   }'
-🧪 测试
-运行合约测试
-bash
+```
+
+---
+
+## 🧪 测试
+
+### 运行合约测试
+
+```bash
 cd onchain
 forge test --gas-report -vv
-结果：13 个测试全部通过 ✅
+```
 
-https://./screenshots/forge-test1.png
+**结果：13 个测试全部通过 ✅**
 
-Gas 报告
-https://./screenshots/forge-test2.png
+![测试结果](./screenshots/forge-test1.png)
 
-函数	平均 Gas
-createAuction	161,769
-bidEth	53,573
-bidUSDC	142,921
-endAuction	57,736
-initialize	184,645
-🌐 部署到 Sepolia
-1. 配置环境变量
-bash
+### Gas 报告
+
+![Gas 报告](./screenshots/forge-test2.png)
+
+| 函数 | 平均 Gas |
+|------|----------|
+| `createAuction` | 161,769 |
+| `bidEth` | 53,573 |
+| `bidUSDC` | 142,921 |
+| `endAuction` | 57,736 |
+| `initialize` | 184,645 |
+
+---
+
+## 🌐 部署到 Sepolia
+
+### 1. 配置环境变量
+
+```bash
 # onchain/.env
 SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
 DEPLOYER_PRIVATE_KEY=YOUR_PRIVATE_KEY
-2. 部署
-bash
+```
+
+### 2. 部署
+
+```bash
 forge script script/Deploy.s.sol:DeployAuction \
     --rpc-url $SEPOLIA_RPC_URL \
     --broadcast \
     --private-key $DEPLOYER_PRIVATE_KEY
-3. 部署结果
-text
+```
+
+### 3. 部署结果
+
+```
 Proxy Address: 0x54B06642502fFd04cf8E2D92b036D50bd36bD78f
 USDC Address:  0x67986Fd919ebB385ad023B0Ec774523eF4Bb227c
 NFT Address:   0xF983a521AADF4Ba101456D60Ea1876eA2c28F999
-https://./screenshots/sepolia-deploy.png
+```
 
-4. Etherscan 验证
-https://./screenshots/etherscan-tx.png
+![Sepolia 部署](./screenshots/sepolia-deploy.png)
 
-https://./screenshots/etherscan-logs.png
+### 4. Etherscan 验证
 
-📡 API 接口
-方法	路径	功能
-GET	/health	健康检查
-GET	/api/auctions	获取拍卖列表（分页 + 筛选）
-GET	/api/auctions/{id}	获取拍卖详情（含出价）
-GET	/api/auctions/{id}/bids	获取拍卖的出价历史
-POST	/api/auctions	创建拍卖
-POST	/api/auctions/{id}/end	结束拍卖
-GET	/api/bids	获取所有出价
-POST	/api/bids	出价（ETH / USDC）
-GET	/api/bids/stats	出价统计
-API 响应示例
-json
+![Etherscan 交易详情](./screenshots/etherscan-tx.png)
+
+![Etherscan 事件日志](./screenshots/etherscan-logs.png)
+
+---
+
+## 📡 API 接口
+
+| 方法 | 路径 | 功能 |
+|------|------|------|
+| GET | `/health` | 健康检查 |
+| GET | `/api/auctions` | 获取拍卖列表（分页 + 筛选） |
+| GET | `/api/auctions/{id}` | 获取拍卖详情（含出价） |
+| GET | `/api/auctions/{id}/bids` | 获取拍卖的出价历史 |
+| POST | `/api/auctions` | 创建拍卖 |
+| POST | `/api/auctions/{id}/end` | 结束拍卖 |
+| GET | `/api/bids` | 获取所有出价 |
+| POST | `/api/bids` | 出价（ETH / USDC） |
+| GET | `/api/bids/stats` | 出价统计 |
+
+### API 响应示例
+
+```json
 {
   "data": [
     {
@@ -213,38 +253,63 @@ json
   "page_size": 10,
   "total": 5
 }
-🐳 Docker 部署
-1. 构建并启动
-bash
+```
+
+---
+
+## 🐳 Docker 部署
+
+### 1. 构建并启动
+
+```bash
 docker-compose up -d
-2. 查看状态
-bash
+```
+
+### 2. 查看状态
+
+```bash
 docker-compose ps
-3. 查看日志
-bash
+```
+
+### 3. 查看日志
+
+```bash
 docker-compose logs -f
-4. 停止服务
-bash
+```
+
+### 4. 停止服务
+
+```bash
 docker-compose down
-📸 截图
-API 服务
-https://./screenshots/api-log.png
+```
 
-https://./screenshots/api-health.png
+---
 
-https://./screenshots/api-auctions.png
+## 📸 截图
 
-Indexer
-https://./screenshots/indexer-startup.png
+### API 服务
 
-📄 许可证
+![API 启动日志](./screenshots/api-log.png)
+
+![API 健康检查](./screenshots/api-health.png)
+
+![API 拍卖列表](./screenshots/api-auctions.png)
+
+### Indexer
+
+![Indexer 启动](./screenshots/indexer-startup.png)
+
+---
+
+## 📄 许可证
+
 MIT License
 
-🙏 致谢
-Foundry - 智能合约开发框架
+---
 
-go-ethereum - Go 以太坊客户端
+## 🙏 致谢
 
-Gin - Go Web 框架
-
-GORM - Go ORM
+- [Foundry](https://book.getfoundry.sh/) - 智能合约开发框架
+- [go-ethereum](https://github.com/ethereum/go-ethereum) - Go 以太坊客户端
+- [Gin](https://gin-gonic.com/) - Go Web 框架
+- [GORM](https://gorm.io/) - Go ORM
